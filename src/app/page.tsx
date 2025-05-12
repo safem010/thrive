@@ -1,103 +1,120 @@
-import Image from "next/image";
+'use client';
+import React from 'react';
+import Image from 'next/image';
+import logo from '@/assets/logo2.png';
 
-export default function Home() {
+// Portfolio Cards
+import CSPortfolioCard from '@/components/cs/CSPortfolioCard';
+import ArtPortfolioCard from '@/components/gallery/artPortfolioCard';
+import WritingPortfolioCard from '@/components/poetry/writingPortfolio';
+
+// General & Misc Cards
+import Card from '@/components/thrive/Card';
+import ContactCard from '@/components/misc/contactUs';
+import AppointmentCard from '@/components/misc/appointmentsCard';
+
+// Reviews
+import ReviewCard from '@/components/reviews/reviewCard';
+import ReviewsCard from '@/components/reviews/reviewsCard';
+
+// Golden ratio constant
+const GOLDEN_RATIO = 1.618;
+const MIN_SIZE = 330;
+const THRIVE_SIZE = Math.round(MIN_SIZE * GOLDEN_RATIO);
+const MAX_SIZE = Math.round(THRIVE_SIZE * GOLDEN_RATIO);
+
+const CARD_CLASS = `
+  bg-white
+  rounded-2xl
+  transition-transform transition-shadow duration-300 ease-in-out
+  hover:shadow-xl hover:scale-[1.02]
+  flex items-center justify-center
+  justify-self-center
+`;
+
+export default function HomePage() {
+  const cards = [
+    { key: 'appointment', component: <AppointmentCard />, size: MIN_SIZE, extraStyle: { marginLeft: '40px' } },
+    { key: 'thrive', component: <Card />, size: THRIVE_SIZE, extraStyle: { marginLeft: '60px' } },
+    { key: 'cs', component: <CSPortfolioCard />, size: MIN_SIZE },
+    { key: 'art', component: <ArtPortfolioCard />, size: MIN_SIZE },
+    { key: 'writing', component: <WritingPortfolioCard />, size: MIN_SIZE },
+    { key: 'contact', component: <ContactCard />, size: MIN_SIZE },
+    { key: 'reviews-summary', component: <ReviewsCard />, size: MIN_SIZE },
+    { key: 'individual-reviews', component: <ReviewCard />, size: MIN_SIZE },
+  ];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <main className="page">
+      <div className="logo-container">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          src={logo}
+          alt="Site Logo"
+          width={150}
+          height={150}
+          className="logo"
         />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <section className="cards-container">
+        <div className="cards-grid">
+          {cards.map(({ key, component, size, extraStyle }) => (
+            <div
+              key={key}
+              className={CARD_CLASS}
+              style={{ minWidth: size, minHeight: size, maxWidth: MAX_SIZE, maxHeight: MAX_SIZE, ...extraStyle }}
+            >
+              {component}
+            </div>
+          ))}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      <style jsx>{`
+        .page {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 3rem 1rem;
+          /* Soft pastel gradient from top-left to bottom-right */
+          background: linear-gradient(
+            135deg,
+        rgba(55, 112, 178, 0.9) 0%,
+        rgba(79, 161, 255, 0.8) 10%,
+        rgba(255, 239, 118, 0.7) 100%
+  );
+        }
+
+        .logo-container {
+          margin-bottom: 2.5rem;
+        }
+        .logo {
+          border-radius: 0.75rem;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        .cards-container {
+          width: 100%;
+          max-width: 1400px;
+        }
+        .cards-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(${MIN_SIZE}px, 1fr));
+          gap: 2.5rem;
+          justify-items: center;
+        }
+        @media (max-width: 1024px) {
+          .cards-grid {
+            grid-template-columns: repeat(auto-fit, minmax(${MIN_SIZE}px, 1fr));
+          }
+        }
+        @media (max-width: 640px) {
+          .cards-grid {
+            grid-template-columns: 1fr;
+            justify-items: center;
+          }
+        }
+      `}</style>
+    </main>
   );
 }
